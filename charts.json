@@ -1,0 +1,66 @@
+{
+  "charts": [
+    {
+      "dashboard": "CR_02",
+      "id": "climbs-by-nation",
+      "type": "bar",
+      "title": "Top 20 Climbs by Nation",
+      "fieldMappings": {
+        "A": "A",
+        "nation": "nation"
+      },
+      "saql": "q = load \"0Fbaj0000017XbNCAU\";\nq = group q by nation;\nq = foreach q generate count(*) as A;\nq = order q by A desc;\nlimit 20;",
+      "style": {
+        "seriesColors": "#002060",
+        "fontColor": "dark grey",
+        "effects": ["shadow"]
+      }
+    },
+    {
+      "dashboard": "CR_02",
+      "id": "time-by-peak",
+      "type": "box-and-whisker",
+      "title": "Days per Peak by Top 20 Climbs",
+      "fieldMappings": {
+        "A": "A",
+        "B": "B",
+        "C": "C",
+        "D": "D",
+        "peakid": "peakid"
+      },
+      "saql": "q = load \"0Fbaj0000017XbNCAU\";\nq = group q by peakid;\nq = foreach q generate min(totdays) as A, percentile_disc(0.25) within group (order by totdays) as B, percentile_disc(0.75) within group (order by totdays) as C, max(totdays) as D, count(*) as E;\nq = order q by E desc;\nlimit 20;",
+      "style": {
+        "seriesColors": "#97C1DA,#002060",
+        "effects": ["shadow"]
+      }
+    },
+    {
+      "dashboard": "CR_02",
+      "id": "camps-by-peak",
+      "type": "bar",
+      "title": "Average Number of Camps per Peak",
+      "fieldMappings": {
+        "A": "A",
+        "peakid": "peakid"
+      },
+      "saql": "q = load \"0Fbaj0000017XbNCAU\";\nq = group q by peakid;\nq = foreach q generate avg(camps) as A, count(*) as B;\nq = order q by B desc;\nlimit 20;",
+      "style": {
+        "effects": ["shadow"]
+      }
+    },
+    {
+      "dashboard": "CR_02",
+      "id": "deaths-by-peak",
+      "type": "bar",
+      "title": "Total Number of Deaths per Peak",
+      "fieldMappings": {
+        "A": "A",
+        "peakid": "peakid"
+      },
+      "saql": "q = load \"0Fbaj0000017XbNCAU\";\nq = group q by peakid;\nq = foreach q generate sum(hdeaths) as A, count(*) as B;\nq = order q by B desc;\nlimit 20;",
+      "style": {
+        "effects": ["shadow"]
+      }
+    }
+  ]
+}

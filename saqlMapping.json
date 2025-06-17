@@ -1,0 +1,14 @@
+{
+  "saqlMapping": {
+    "load": "q = load \"<datasetId>\";",
+    "where": "q = filter q by <filters>;",
+    "group": "q = group q by <dimension>;",
+    "foreach": "q = foreach q generate <aggregates>;",
+    "order": "q = order q by <orderField> <orderDirection>;",
+    "limit": "limit <limit>;"
+  },
+  "placeholders": {
+    "<datasetId>": "the first dataset ID from dashboard.datasets",
+    "<filters>": "output of your getFilters() call at runtime"
+  }
+}

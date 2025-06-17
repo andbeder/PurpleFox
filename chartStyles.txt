@@ -1,0 +1,5 @@
+colors - List of series colors for the chart
+font-color - Color applied to chart text
+x-axis-font-size - Font size of labels on the X axis
+y-axis-font-size - Font size of labels on the Y axis
+drop-shadow - Enables a drop shadow effect

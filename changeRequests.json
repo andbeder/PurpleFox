@@ -1,0 +1,162 @@
+{
+  "changes": [
+    {
+      "chartId": "ClimbsByNation",
+      "action": "update",
+      "targetFile": "dynamicCharts.js",
+      "mismatches": [
+        {
+          "property": "dashboard",
+          "currentValue": "Unknown",
+          "expectedValue": "CR_02"
+        },
+        {
+          "property": "title",
+          "currentValue": "Climbs By Nation",
+          "expectedValue": "Top 20 Climbs by Nation"
+        },
+        {
+          "property": "fieldMappings",
+          "currentValue": {
+            "nation": "nation",
+            "Climbs": "Climbs"
+          },
+          "expectedValue": {
+            "nation": "Nation",
+            "Climbs": "Climbs"
+          }
+        },
+        {
+          "property": "style",
+          "currentValue": {
+            "seriesColors": "default",
+            "font": "default",
+            "effects": []
+          },
+          "expectedValue": {
+            "seriesColors": "#002060",
+            "font": "default",
+            "effects": [
+              "shadow"
+            ]
+          }
+        }
+      ],
+      "instructions": [
+        "Update ClimbsByNation dashboard",
+        "Update ClimbsByNation title",
+        "Update ClimbsByNation fieldMappings",
+        "Update ClimbsByNation style"
+      ]
+    },
+    {
+      "chartId": "TimeByPeak",
+      "action": "update",
+      "targetFile": "dynamicCharts.js",
+      "mismatches": [
+        {
+          "property": "dashboard",
+          "currentValue": "Unknown",
+          "expectedValue": "CR_02"
+        },
+        {
+          "property": "title",
+          "currentValue": "Time By Peak",
+          "expectedValue": "Days per Peak by Top 20 Climbs"
+        },
+        {
+          "property": "fieldMappings",
+          "currentValue": {
+            "peakid": "peakid",
+            "A": "A",
+            "B": "B",
+            "C": "C",
+            "D": "D"
+          },
+          "expectedValue": {
+            "peakid": "Peak ID",
+            "A": "Min",
+            "B": "Q1",
+            "C": "Q3",
+            "D": "Max"
+          }
+        },
+        {
+          "property": "style",
+          "currentValue": {
+            "seriesColors": "default",
+            "font": "default",
+            "effects": []
+          },
+          "expectedValue": {
+            "seriesColors": "#97C1DA,#002060",
+            "font": "default",
+            "effects": [
+              "shadow"
+            ]
+          }
+        }
+      ],
+      "instructions": [
+        "Update TimeByPeak dashboard",
+        "Update TimeByPeak title",
+        "Update TimeByPeak fieldMappings",
+        "Update TimeByPeak style"
+      ]
+    },
+    {
+      "chartId": "CampsByPeak",
+      "action": "update",
+      "targetFile": "dynamicCharts.js",
+      "mismatches": [
+        {
+          "property": "dashboard",
+          "currentValue": "Unknown",
+          "expectedValue": "CR_02"
+        },
+        {
+          "property": "title",
+          "currentValue": "Camps By Peak",
+          "expectedValue": "Average Number of Camps per Peak"
+        },
+        {
+          "property": "fieldMappings",
+          "currentValue": {
+            "peakid": "peakid",
+            "A": "A"
+          },
+          "expectedValue": {
+            "peakid": "Peak ID",
+            "A": "Average Camps"
+          }
+        },
+        {
+          "property": "style",
+          "currentValue": {
+            "seriesColors": "default",
+            "font": "default",
+            "effects": []
+          },
+          "expectedValue": {
+            "seriesColors": "#175F68",
+            "font": "default",
+            "effects": [
+              "shadow"
+            ]
+          }
+        }
+      ],
+      "instructions": [
+        "Update CampsByPeak dashboard",
+        "Update CampsByPeak title",
+        "Update CampsByPeak fieldMappings",
+        "Update CampsByPeak style"
+      ]
+    },
+    {
+      "chartId": "DaysPerPeak",
+      "action": "remove",
+      "targetFile": "dynamicCharts.js"
+    }
+  ]
+}
