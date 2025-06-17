@@ -1,9 +1,7 @@
 import { LightningElement, wire, api } from "lwc";
-import {
-  getDatasets,
-  executeQuery
-} from "lightning/analyticsWaveApi";
+import { getDatasets, executeQuery } from "lightning/analyticsWaveApi";
 import apexchartJs from "@salesforce/resourceUrl/ApexCharts";
+import chartMetaUrl from "@salesforce/resourceUrl/chartMetadata";
 import { loadScript } from "lightning/platformResourceLoader";
 
 let apexChartsPromise;
@@ -38,45 +36,40 @@ export default class DynamicCharts extends LightningElement {
 
   activePage = "ClimbsByNation";
 
-  get climbsPageClass() {
-    return this.activePage === "ClimbsByNation" ? "slds-show" : "slds-hide";
-  }
-  get campsPageClass() {
-    return this.activePage === "CampsByPeak" ? "slds-show" : "slds-hide";
-  }
-  get timePageClass() {
-    return this.activePage === "TimeByPeak" ? "slds-show" : "slds-hide";
+  pages = [];
+
+  @api
+  chartSettings = {};
+
+  connectedCallback() {
+    fetch(chartMetaUrl)
+      .then((resp) => resp.json())
+      .then((cfg) => {
+        this.chartSettings = cfg.chartSettings || {};
+        this.pages = cfg.pages || [];
+      })
+      .catch((err) => {
+        // eslint-disable-next-line no-console
+        console.error("Failed to load chart metadata", err);
+      });
   }
 
-  chartSettings = {
-    ClimbsByNation: {
-      dashboard: "CR_02",
-      title: "Top 20 Climbs by Nation",
-      fieldMappings: { nation: "Nation", Climbs: "Climbs" },
-      colors: ["#002060"],
-      effects: ["shadow"]
-    },
-    TimeByPeak: {
-      dashboard: "CR_02",
-      title: "Days per Peak by Top 20 Climbs",
-      fieldMappings: {
-        peakid: "Peak ID",
-        A: "Min",
-        B: "Q1",
-        C: "Q3",
-        D: "Max"
-      },
-      colors: ["#97C1DA", "#002060"],
-      effects: ["shadow"]
-    },
-    CampsByPeak: {
-      dashboard: "CR_02",
-      title: "Average Number of Camps per Peak",
-      fieldMappings: { peakid: "Peak ID", A: "Average Camps" },
-      colors: ["#175F68"],
-      effects: ["shadow"]
-    }
-  };
+  pageClass(id) {
+    return this.activePage === id ? "slds-show" : "slds-hide";
+  }
+
+  chartClass(id) {
+    return `${id} slds-var-m-around_medium`;
+  }
+
+  get pagesWithState() {
+    return this.pages.map((p) => ({
+      ...p,
+      cssClass: this.activePage === p.id ? "slds-show" : "slds-hide",
+      iconName: p.id === "TimeByPeak" ? "custom:custom2" : "custom:custom1",
+      chartList: p.charts.map((c) => ({ id: c, cssClass: this.chartClass(c) }))
+    }));
+  }
 
   @api
   applySettings(options, chartId) {
@@ -356,7 +349,7 @@ export default class DynamicCharts extends LightningElement {
   }
 
   renderedCallback() {
-    if (this._chartsInitialized) {
+    if (this._chartsInitialized || this.pages.length === 0) {
       return;
     }
     this._chartsInitialized = true;
@@ -367,17 +360,14 @@ export default class DynamicCharts extends LightningElement {
 
     apexChartsPromise
       .then(() => {
-        // initialize all six charts once the script is loaded
-        this.initChart(".ClimbsByNation", this.chartAOptions, "ClimbsByNation");
-        this.initChart(
-          ".ClimbsByNationAO",
-          this.chartAOptions,
-          "ClimbsByNationAO"
-        );
-        this.initChart(".CampsByPeak", this.chartAOptions, "CampsByPeak");
-        this.initChart(".CampsByPeakAO", this.chartAOptions, "CampsByPeakAO");
-        this.initChart(".TimeByPeak", this.chartBoxOptions, "TimeByPeak");
-        this.initChart(".TimeByPeakAO", this.chartBoxOptions, "TimeByPeakAO");
+        this.pages.forEach((p) => {
+          p.charts.forEach((id) => {
+            const opts = id.includes("TimeByPeak")
+              ? this.chartBoxOptions
+              : this.chartAOptions;
+            this.initChart(`.${id}`, opts, id);
+          });
+        });
       })
       .catch((error) => {
         console.error("Failed to load ApexCharts", error);

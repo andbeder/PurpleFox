@@ -3,6 +3,30 @@ import { createElement } from "lwc";
 import DynamicCharts from "c/dynamicCharts";
 import { loadScript } from "lightning/platformResourceLoader";
 
+jest.mock("lightning/platformResourceLoader", () => ({
+  loadScript: jest.fn(() => Promise.resolve())
+}));
+
+global.ApexCharts = function () {
+  this.render = jest.fn();
+  this.updateOptions = jest.fn();
+};
+
+const mockResponse = {
+  pages: [
+    { id: "ClimbsByNation", charts: ["ClimbsByNation", "ClimbsByNationAO"] },
+    { id: "CampsByPeak", charts: ["CampsByPeak", "CampsByPeakAO"] },
+    { id: "TimeByPeak", charts: ["TimeByPeak", "TimeByPeakAO"] }
+  ],
+  chartSettings: {
+    ClimbsByNation: { effects: ["shadow"] }
+  }
+};
+
+global.fetch = jest.fn(() =>
+  Promise.resolve({ json: () => Promise.resolve(mockResponse) })
+);
+
 const flushPromises = () => new Promise((resolve) => setTimeout(resolve, 0));
 
 describe("c-dynamic-charts", () => {
@@ -13,31 +37,37 @@ describe("c-dynamic-charts", () => {
     }
   });
 
-  it("renders chart container", () => {
+  it("renders chart container", async () => {
     const element = createElement("c-dynamic-charts", {
       is: DynamicCharts
     });
     document.body.appendChild(element);
+
+    await flushPromises();
 
     const chartDiv = element.shadowRoot.querySelector("div.ClimbsByNation");
     expect(chartDiv).not.toBeNull();
   });
 
-  it("renders second chart container", () => {
+  it("renders second chart container", async () => {
     const element = createElement("c-dynamic-charts", {
       is: DynamicCharts
     });
     document.body.appendChild(element);
+
+    await flushPromises();
 
     const chartDiv = element.shadowRoot.querySelector("div.ClimbsByNationAO");
     expect(chartDiv).not.toBeNull();
   });
 
-  it("renders box plot containers", () => {
+  it("renders box plot containers", async () => {
     const element = createElement("c-dynamic-charts", {
       is: DynamicCharts
     });
     document.body.appendChild(element);
+
+    await flushPromises();
 
     const chart3 = element.shadowRoot.querySelector("div.TimeByPeak");
     const chart4 = element.shadowRoot.querySelector("div.TimeByPeakAO");
@@ -49,11 +79,13 @@ describe("c-dynamic-charts", () => {
     expect(chart7).not.toBeNull();
   });
 
-  it("shows ClimbsByNation page by default", () => {
+  it("shows ClimbsByNation page by default", async () => {
     const element = createElement("c-dynamic-charts", {
       is: DynamicCharts
     });
     document.body.appendChild(element);
+
+    await flushPromises();
 
     const climbsPage = element.shadowRoot.querySelector(
       "div[data-page='ClimbsByNation']"
@@ -66,6 +98,8 @@ describe("c-dynamic-charts", () => {
       is: DynamicCharts
     });
     document.body.appendChild(element);
+
+    await flushPromises();
 
     const link = element.shadowRoot.querySelector("a[data-id='TimeByPeak']");
     link.click();
@@ -82,6 +116,8 @@ describe("c-dynamic-charts", () => {
       is: DynamicCharts
     });
     document.body.appendChild(element);
+
+    await flushPromises();
 
     const errorSpy = jest.spyOn(console, "error");
     await Promise.resolve();

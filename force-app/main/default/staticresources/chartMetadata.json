@@ -1,0 +1,45 @@
+{
+  "pages": [
+    {
+      "id": "ClimbsByNation",
+      "charts": ["ClimbsByNation", "ClimbsByNationAO"]
+    },
+    {
+      "id": "CampsByPeak",
+      "charts": ["CampsByPeak", "CampsByPeakAO"]
+    },
+    {
+      "id": "TimeByPeak",
+      "charts": ["TimeByPeak", "TimeByPeakAO"]
+    }
+  ],
+  "chartSettings": {
+    "ClimbsByNation": {
+      "dashboard": "CR_02",
+      "title": "Top 20 Climbs by Nation",
+      "fieldMappings": { "nation": "Nation", "Climbs": "Climbs" },
+      "colors": ["#002060"],
+      "effects": ["shadow"]
+    },
+    "TimeByPeak": {
+      "dashboard": "CR_02",
+      "title": "Days per Peak by Top 20 Climbs",
+      "fieldMappings": {
+        "peakid": "Peak ID",
+        "A": "Min",
+        "B": "Q1",
+        "C": "Q3",
+        "D": "Max"
+      },
+      "colors": ["#97C1DA", "#002060"],
+      "effects": ["shadow"]
+    },
+    "CampsByPeak": {
+      "dashboard": "CR_02",
+      "title": "Average Number of Camps per Peak",
+      "fieldMappings": { "peakid": "Peak ID", "A": "Average Camps" },
+      "colors": ["#175F68"],
+      "effects": ["shadow"]
+    }
+  }
+}

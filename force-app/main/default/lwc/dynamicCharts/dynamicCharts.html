@@ -65,87 +65,32 @@
   <lightning-layout>
     <lightning-layout-item size="2">
       <ul class="slds-list_dotted">
-        <li>
-          <a
-            href="javascript:void(0);"
-            data-id="ClimbsByNation"
-            onclick={handleNavClick}
-            >ClimbsByNation</a
-          >
-        </li>
-        <li>
-          <a
-            href="javascript:void(0);"
-            data-id="CampsByPeak"
-            onclick={handleNavClick}
-            >CampsByPeak</a
-          >
-        </li>
-        <li>
-          <a
-            href="javascript:void(0);"
-            data-id="TimeByPeak"
-            onclick={handleNavClick}
-            >TimeByPeak</a
-          >
-        </li>
+        <template for:each={pagesWithState} for:item="page">
+          <li key={page.id}>
+            <a
+              href="javascript:void(0);"
+              data-id={page.id}
+              onclick={handleNavClick}
+              >{page.id}</a
+            >
+          </li>
+        </template>
       </ul>
     </lightning-layout-item>
     <lightning-layout-item size="10">
-      <div class={climbsPageClass} data-page="ClimbsByNation">
-        <lightning-card title="Chart Series" icon-name="custom:custom1">
-          <lightning-layout>
-            <lightning-layout-item size="6">
-              <div
-                class="ClimbsByNation slds-var-m-around_medium"
-                lwc:dom="manual"
-              ></div>
-            </lightning-layout-item>
-            <lightning-layout-item size="6">
-              <div
-                class="ClimbsByNationAO slds-var-m-around_medium"
-                lwc:dom="manual"
-              ></div>
-            </lightning-layout-item>
-          </lightning-layout>
-        </lightning-card>
-      </div>
-      <div class={campsPageClass} data-page="CampsByPeak">
-        <lightning-card title="Chart Series" icon-name="custom:custom1">
-          <lightning-layout>
-            <lightning-layout-item size="6">
-              <div
-                class="CampsByPeak slds-var-m-around_medium"
-                lwc:dom="manual"
-              ></div>
-            </lightning-layout-item>
-            <lightning-layout-item size="6">
-              <div
-                class="CampsByPeakAO slds-var-m-around_medium"
-                lwc:dom="manual"
-              ></div>
-            </lightning-layout-item>
-          </lightning-layout>
-        </lightning-card>
-      </div>
-      <div class={timePageClass} data-page="TimeByPeak">
-        <lightning-card title="Box Plot Series" icon-name="custom:custom2">
-          <lightning-layout>
-            <lightning-layout-item size="6">
-              <div
-                class="TimeByPeak slds-var-m-around_medium"
-                lwc:dom="manual"
-              ></div>
-            </lightning-layout-item>
-            <lightning-layout-item size="6">
-              <div
-                class="TimeByPeakAO slds-var-m-around_medium"
-                lwc:dom="manual"
-              ></div>
-            </lightning-layout-item>
-          </lightning-layout>
-        </lightning-card>
-      </div>
+      <template for:each={pagesWithState} for:item="page">
+        <div key={page.id} data-page={page.id} class={page.cssClass}>
+          <lightning-card title="Chart Series" icon-name={page.iconName}>
+            <lightning-layout>
+              <template for:each={page.chartList} for:item="chart">
+                <lightning-layout-item size="6" key={chart.id}>
+                  <div class={chart.cssClass} lwc:dom="manual"></div>
+                </lightning-layout-item>
+              </template>
+            </lightning-layout>
+          </lightning-card>
+        </div>
+      </template>
     </lightning-layout-item>
   </lightning-layout>
 </template>
