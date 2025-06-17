@@ -14,7 +14,21 @@
     "prettier:verify": "prettier --check \"**/*.{cls,cmp,component,css,html,js,json,md,page,trigger,xml,yaml,yml}\"",
     "postinstall": "husky init",
     "precommit": "lint-staged",
-    "prepare": "husky"
+    "prepare": "husky",
+    "preinstall": "node scripts/checkNodeVersion.js",
+    "install": "node scripts/install.js",
+    "sfdcAuthorizer": "node scripts/agents/sfdcAuthorizer.js",
+    "dashboardRetriever": "node scripts/agents/dashboardRetriever.js",
+    "dashboardReader": "node scripts/agents/dashboardReader.js",
+    "lwcReader": "node scripts/agents/lwcReader.js",
+    "changeRequestGenerator": "node scripts/agents/changeRequestGenerator.js",
+    "syncCharts": "node scripts/agents/syncCharts.js",
+    "lwcTester": "node scripts/agents/lwcTester.js",
+    "sfdcDeployer": "node scripts/agents/sfdcDeployer.js",
+    "generate:charts": "npm run sfdcAuthorizer && npm run dashboardRetriever -- --dashboard=$npm_config_dashboard && npm run dashboardReader -- --dashboard=$npm_config_dashboard && npm run lwcReader && npm run changeRequestGenerator",
+    "sync:charts": "npm run syncCharts",
+    "deploy:charts": "npm run lwcTester && npm run sfdcDeployer",
+    "end-to-end:charts": "node scripts/endToEndCharts.js"
   },
   "devDependencies": {
     "@lwc/engine-dom": "^8.18.0",
