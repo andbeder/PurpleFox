@@ -85,6 +85,9 @@ function updateHtml(htmlPath, changes) {
   const ulStart = lines.findIndex((l) => l.includes('<ul') && l.includes('slds-list_dotted'));
   let ulEnd = lines.findIndex((l, i) => i > ulStart && l.includes('</ul>'));
   let layoutEnd = lines.lastIndexOf('</lightning-layout-item>');
+  const templateEnd = lines.lastIndexOf('</template>');
+  if (layoutEnd === -1 || layoutEnd > templateEnd) layoutEnd = templateEnd;
+  if (ulEnd === -1 || ulEnd > templateEnd) ulEnd = templateEnd;
   changes.changes.forEach((change) => {
     if (change.targetFile !== 'dynamicCharts.js') return;
     const id = change.chartId;
