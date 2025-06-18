@@ -25,7 +25,8 @@ Automates building, maintaining, and enhancing Jest-based unit and integration t
 6. **Enforce Coverage & Quality**: Applies minimum coverage thresholds (Statements: 80%, Branches: 75%, Functions: 80%, Lines: 80%), reports gaps, and runs lint via `npm run lint`. fileciteturn1file0
 7. **Run & Watch Mode**: Executes tests on-demand (`npm run test:lwc:unit`, `npm run test:lwc:integration`) and supports `--watch`. fileciteturn1file0
 8. **Reporting**: Outputs console results and generates HTML reports in `test/lwcTester/reports/`. fileciteturn1file0
-9. **CI Integration**: Updates `package.json` with scripts for unit, integration, and full CI test runs. fileciteturn1file0
+9. **CI Integration**: Updates `package.json` with scripts for unit, integration,
+   and full CI test runs via `npm run test:lwc:ci`. fileciteturn1file0
 
 ## Preconditions
 

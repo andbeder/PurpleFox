@@ -15,6 +15,7 @@ deploy-options.json
 coverage/
 
 reports/
+!test/lwcTester/reports/
 
 # Logs
 logs
