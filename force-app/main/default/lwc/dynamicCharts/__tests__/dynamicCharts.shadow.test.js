@@ -16,7 +16,7 @@ const mockResponse = {
     { id: "ClimbsByNation", charts: ["ClimbsByNation", "ClimbsByNationAO"] }
   ],
   chartSettings: {
-    ClimbsByNation: { effects: ["shadow"] }
+    ClimbsByNation: { title: "Test", colors: ["#000"] }
   }
 };
 
@@ -24,23 +24,24 @@ global.fetch = jest.fn(() =>
   Promise.resolve({ json: () => Promise.resolve(mockResponse) })
 );
 
-describe("c-dynamic-charts drop shadow", () => {
+describe("c-dynamic-charts apply settings", () => {
   afterEach(() => {
     while (document.body.firstChild) {
       document.body.removeChild(document.body.firstChild);
     }
   });
 
-  it("adds dropShadow settings when effects include shadow", () => {
+  it("applies title and colors when present", () => {
     const element = createElement("c-dynamic-charts", { is: DynamicCharts });
     document.body.appendChild(element);
-    element.chartSettings = { ClimbsByNation: { effects: ["shadow"] } };
+    element.chartSettings = { ClimbsByNation: { title: "Test", colors: ["#000"] } };
     const options = { chart: {} };
-    const updated = element.applySettings.call(
+    const updated = DynamicCharts.prototype.applySettings.call(
       element,
       options,
       "ClimbsByNation"
     );
-    expect(updated.chart.dropShadow.enabled).toBe(true);
+    expect(updated.title.text).toBe("Test");
+    expect(updated.colors).toEqual(["#000"]);
   });
 });
